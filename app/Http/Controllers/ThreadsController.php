@@ -55,7 +55,8 @@ class ThreadsController extends Controller
 
         $thread = Thread::create(['user_id' => auth()->id(), 'channel_id' => request('channel_id'), 'title' => request('title'), 'body' => request('body')]);
 
-        return redirect($thread->path());
+        return redirect($thread->path())
+            ->with('flash', 'Your thread has been published!');
     }
 
     /**
@@ -70,22 +71,17 @@ class ThreadsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Thread $thread
-     * @return \Illuminate\Http\Response
+     * @param Thread $thread
      */
     public function edit(Thread $thread)
     {
         //
     }
 
+
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Thread $thread
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Thread $thread
      */
     public function update(Request $request, Thread $thread)
     {
@@ -93,10 +89,10 @@ class ThreadsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Thread $thread
-     * @return \Illuminate\Http\Response
+     * @param $channel
+     * @param Thread $thread
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($channel, Thread $thread)
     {

@@ -1,6 +1,9 @@
 <?php
+
 namespace App;
+
 use Illuminate\Database\Eloquent\Model;
+
 class Activity extends Model
 {
     /**
@@ -9,6 +12,7 @@ class Activity extends Model
      * @var array
      */
     protected $guarded = [];
+
     /**
      * Fetch the associated subject for the activity.
      *
@@ -17,5 +21,18 @@ class Activity extends Model
     public function subject()
     {
         return $this->morphTo();
+    }
+
+
+
+    public static function feed($user, $take = 20)
+    {
+        return static::where('user_id', $user->id)
+            ->latest()
+            ->with('subject')
+            ->take($take)
+            ->get()->groupBy(function ($activity) {
+            return $activity->created_at->format('Y-m-d');
+        });
     }
 }
