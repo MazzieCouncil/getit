@@ -7,7 +7,6 @@
 
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
         <title>{{ config('app.name', 'Mazzie CRM') }}</title>
 
         <!-- Scripts -->
@@ -19,6 +18,13 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+        <script>
+            window.App = {!! json_encode([
+                'user' => Auth::user(),
+                'signedIn' => Auth::check()
+            ]) !!};
+        </script>
 
         <style>
             body {
